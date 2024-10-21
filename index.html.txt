@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Matrix</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+        }
+        #matrix {
+            white-space: pre;
+            font-size: 10px;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="matrix"></div>
+    <div id="controls">
+        <p>Touch the screen to pause/resume or 'Q' to quit</p>
+    </div>
+    <script>
+        (function() {
+            const matrixDiv = document.getElementById('matrix');
+            let running = true;
+            let interval;
+
+            function clearScreen() {
+                matrixDiv.textContent = '';
+            }
+
+            function printRandomNumberMatrix() {
+                clearScreen();
+                matrixDiv.textContent = "Random Number Matrix (50x50):\n\n";
+
+                interval = setInterval(() => {
+                    if (running) {
+                        let matrix = '';
+                        for (let i = 0; i < 50; i++) {
+                            for (let j = 0; j < 50; j++) {
+                                const randomNumber = Math.floor(Math.random() * 100);
+                                matrix += randomNumber.toString().padStart(3, ' ') + ' ';
+                            }
+                            matrix += '\n';
+                        }
+                        matrixDiv.textContent = matrix; // Update the display with the new matrix
+                    }
+                }, 1000); // Update every second
+
+                // Replace keyboard event with touch event
+                document.addEventListener('touchstart', handleTouch);
+            }
+
+            function handleTouch() {
+                running = !running; // Toggle running state
+            }
+
+            printRandomNumberMatrix();
+        })(); // Immediately invoked function expression (IIFE)
+    </script>
+</body>
+</html>
